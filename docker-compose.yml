@@ -1,0 +1,32 @@
+services:
+  repflow:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434/v1
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-deepseek-r1:8b}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    # No volume for .repos - cloned repos are ephemeral (deleted after analysis)
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    entrypoint: ["/bin/bash", "-c", "ollama serve & sleep 5 && ollama pull $${OLLAMA_MODEL:-deepseek-r1:8b} && wait"]
+    volumes:
+      - ollama-data:/root/.ollama
+    environment:
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-deepseek-r1:8b}
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all 
+              capabilities: [gpu]
+
+volumes:
+  ollama-data:
