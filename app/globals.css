@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0f0f12;
+  --foreground: #e4e4e7;
+  --card: #18181b;
+  --card-foreground: #e4e4e7;
+  --primary: #a78bfa;
+  --primary-foreground: #0f0f12;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --border: #3f3f46;
+  --ring: #a78bfa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Mermaid diagram styling */
+.mermaid {
+  background: var(--card);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
